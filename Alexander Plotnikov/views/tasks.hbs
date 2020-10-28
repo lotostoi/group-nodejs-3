@@ -1,0 +1,90 @@
+<div class = "cont">
+<button type="button" class="btn btn-warning my-2 width100" id="addtask">+ Add task</button>
+<form id="creatTask" class= "border animHeight" style="height: 0;">
+  <div class="form-group">
+    <label for="exampleInputEmail1">Text of task</label>
+    <textarea type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Text of task"></textarea>
+  </div>
+  <div class="row">
+        <div class="form-group col-5">
+            <label for="exampleInputPassword1">Status</label>
+            <select class="custom-select">
+                <option value="1" selected >Waiting</option>
+                <option value="2">Unknown</option>
+                <option value="3">Done</option>
+        </select>
+        </div>
+        <div class="form-group col-5">
+            <label for="exampleInputPassword1">Date</label>
+            <input type="date" class="form-control" id="exampleInputDate" placeholder="status">
+        </div>
+  </div>
+  <button type="submit" class="btn btn-primary ">Create task</button>
+</form>
+<table class="table">
+ <thead class="thead-dark">
+    <tr class="row mx-0">
+      <th scope="col" class="col-1">#</th>
+      <th scope="col" class="col-6">Task</th>
+      <th scope="col" class="col-2">Status</th>
+      <th scope="col" class="col-2">Data</th>
+      <th scope="col" class="col-1">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+{{#each tasks}}
+ <tr class="row mx-0">
+      <th scope="row" class="col-1">1</th>
+      <td class="col-6">{{this.task}} Lorem ipsum, dolor sit amet consectetur adipisicing elit. Provident voluptas repellat unde suscipit veritatis aspernatur doloremque quae modi in? Nulla vitae corporis voluptas quo culpa velit corrupti, fuga pariatur modi, nesciunt reiciendis itaque ad unde, quos optio iusto labore repellat nihil! Repudiandae harum suscipit facilis iste voluptas accusantium deleniti labore?</td>
+      <th scope="col" class="col-2">Status</th>
+      <th scope="col" class="col-2">Data</th>
+      <th scope="col" class="col-1">Delete</th>
+    </tr>
+{{/each}}
+    </tbody>
+</table> 
+</div>
+
+<script>
+const addTask = document.querySelector('#addtask')
+const form = document.querySelector('#creatTask')
+const task = document.querySelector('#exampleInputEmail1')
+const mydate = document.querySelector('#exampleInputDate')
+const status = document.querySelector('.custom-select')
+
+addTask.addEventListener('click', (e)=> {
+    addTask.classList.toggle('btn-danger')
+  
+    if (!e.target.classList.contains('btn-danger')) {
+        form.style.height = "0"
+        form.style.visibility = "hidden"
+        addTask.innerHTML = "+ Add task"   
+        form.classList.remove('my-2')
+        form.classList.remove('p-2')     
+    }else {
+        form.style.height = "252px"
+        form.style.visibility = "visible"
+        addTask.innerHTML = "- Close this window"    
+        form.classList.add('my-2')
+        form.classList.add('p-2')    
+    }
+})
+
+
+form.addEventListener('submit',async (e)=>{
+    e.preventDefault()
+    let res = await fetch('http://localhost:8001/newtask', {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            task: task.value,
+            status: status.options[status.value-1].innerHTML,
+            date: mydate.value
+        })
+    })
+})
+
+
+</script>

@@ -2,17 +2,20 @@ const PORT = 8001
 const path = require('path')
 const express = require('express')
 const exphbs = require('express-handlebars')
-const courses = require('./src/getCourses')
-const news = require('./src/getNews')
-const bodyParser = require('body-parser')
+const tasks = [
+  { task: 'go to the gym', status: 'wite', data: '28 октября 2020 ' },
+  { task: 'go to the gym', status: 'wite', data: '28 октября 2020 ' },
+  { task: 'go to the gym', status: 'wite', data: '28 октября 2020 ' },
+  { task: 'go to the gym', status: 'wite', data: '28 октября 2020 ' },
+]
+
 const app = express()
 const cookieParser = require('cookie-parser')
 
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'src')))
-// не работает,  express.urlencoded тоже неработает
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+app.use(express.urlencoded({ extended: false }))
+app.use(express.json())
 
 app.engine(
   '.hbs',
@@ -26,8 +29,7 @@ app.engine(
 app.set('view engine', '.hbs')
 
 app.get('/', async (req, res) => {
-  let c = await courses()
-  res.render('courses', { c, title: 'Список курсов GeekBrains' })
+  res.render('tasks', { tasks, title: 'Менеджер задач' })
 })
 app.get('/news', async (req, res) => {
   let n = await news()
@@ -37,7 +39,6 @@ app.get('/news', async (req, res) => {
   n.forEach((e, i) => {
     i < +req.cookies.number && arrNews.push(e)
   })
-  console.log(arrNews)
   res.render('news', {
     arrNews,
     max,
@@ -46,9 +47,10 @@ app.get('/news', async (req, res) => {
   })
 })
 
-app.post('/namberNews/:number', (req, res) => {
+app.post('/newtask', (req, res) => {
   //выдает пустое боди
-  //console.log(req.body)
+  console.log(req.headers)
+  console.log(req.body)
   res.cookie('number', req.params.number)
   res.json({ result: true })
 })
