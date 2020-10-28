@@ -1,16 +1,25 @@
-@import '../../node_modules/bootstrap/scss/bootstrap.scss';
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";
+@import "../../node_modules/font-awesome/scss/font-awesome.scss";
 
-body{
+body {
   min-height: calc(100vh + 1px);
 }
 .animHeight {
   height: 0;
   visibility: hidden;
-  transition: height 0.5s,  visibility 0.3s, padding 0.3s, margin 0.3s;
+  transition: height 0.5s, visibility 0.3s, padding 0.3s, margin 0.3s;
   overflow: hidden;
-  
 }
-
+.delete {
+  width: 80px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  & > i {
+    font-size: 1.2rem;
+  }
+}
 .width100 {
   width: 100%;
 }

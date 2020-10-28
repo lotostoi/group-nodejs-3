@@ -16,7 +16,7 @@
         </div>
         <div class="form-group col-5">
             <label for="exampleInputPassword1">Date</label>
-            <input type="date" class="form-control" id="exampleInputDate" placeholder="status">
+            <input type="date" class="form-control" id="exampleInputDate" placeholder="status" value="{{currentDate}}">
         </div>
   </div>
   <button type="submit" class="btn btn-primary ">Create task</button>
@@ -25,21 +25,25 @@
  <thead class="thead-dark">
     <tr class="row mx-0">
       <th scope="col" class="col-1">#</th>
-      <th scope="col" class="col-6">Task</th>
+      <th scope="col" class="col-5">Task</th>
       <th scope="col" class="col-2">Status</th>
       <th scope="col" class="col-2">Data</th>
-      <th scope="col" class="col-1">Delete</th>
+      <th scope="col" class="col-2">Delete</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody id="alltasks">
 {{#each tasks}}
  <tr class="row mx-0">
-      <th scope="row" class="col-1">1</th>
-      <td class="col-6">{{this.task}} Lorem ipsum, dolor sit amet consectetur adipisicing elit. Provident voluptas repellat unde suscipit veritatis aspernatur doloremque quae modi in? Nulla vitae corporis voluptas quo culpa velit corrupti, fuga pariatur modi, nesciunt reiciendis itaque ad unde, quos optio iusto labore repellat nihil! Repudiandae harum suscipit facilis iste voluptas accusantium deleniti labore?</td>
-      <th scope="col" class="col-2">Status</th>
-      <th scope="col" class="col-2">Data</th>
-      <th scope="col" class="col-1">Delete</th>
-    </tr>
+      <th scope="row" class="col-1">{{@index}}</th>
+      <td class="col-5">{{this.task}} </td>
+      <th scope="col" class="col-2">{{this.status}}</th>
+      <th scope="col" class="col-2">{{this.date}}</th>
+      <th scope="col" class="col-2">
+          <button type="button" class ="btn btn-danger" data-id="{{this._id}}">
+             Del task
+          </button>
+     </th>
+ </tr>
 {{/each}}
     </tbody>
 </table> 
@@ -51,6 +55,37 @@ const form = document.querySelector('#creatTask')
 const task = document.querySelector('#exampleInputEmail1')
 const mydate = document.querySelector('#exampleInputDate')
 const status = document.querySelector('.custom-select')
+const table = document.querySelector('.table')
+const alltasks = document.querySelector('#alltasks')
+
+
+
+class Tamplate{
+    constructor({_id,task,status,date, index}) {
+        this._id = _id
+        this.task = task
+        this.status = status
+        this.date = date
+        this.index = index
+    }
+    render() {
+        return `
+        <tr class="row mx-0">
+            <th scope="row" class="col-1">${this.index}</th>
+            <td class="col-5">${this.task}</td>
+            <th scope="col" class="col-2">${this.status}</th>
+            <th scope="col" class="col-2">${this.date}</th>
+            <th scope="col" class="col-2">
+                <button type="button" class ="btn btn-danger" data-id="${this._id}">
+                    Del task
+                </button>
+            </th>
+        </tr>
+        `
+    }
+
+}
+
 
 addTask.addEventListener('click', (e)=> {
     addTask.classList.toggle('btn-danger')
@@ -83,7 +118,38 @@ form.addEventListener('submit',async (e)=>{
             status: status.options[status.value-1].innerHTML,
             date: mydate.value
         })
+        
     })
+    let {result, tasks} = await res.json()
+    if (result) {
+        let listTasks = ''
+        tasks.forEach((t,i)=> {
+            listTasks += (new Tamplate({...t,index: i})).render() 
+        })
+        alltasks.innerHTML = listTasks
+    }
+})
+
+table.addEventListener('click',async (e)=> {
+    if (e.target.dataset.id) {
+            let res = await fetch('http://localhost:8001/delById', {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    _id: e.target.dataset.id,
+                })
+             })
+            let {result, tasks} = await res.json()
+            if (result) {
+                let listTasks = ''
+                tasks.forEach((t,i)=> {
+                    listTasks += (new Tamplate({...t,index: i})).render() 
+                })
+                alltasks.innerHTML = listTasks
+            }
+    }  
 })
 
 
