@@ -13859,6 +13859,68 @@ body {
   overflow: hidden;
 }
 
+.center {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.df {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.sb {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.none {
+  display: none;
+}
+
+.center-height {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.center-width {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.ver-cont {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
 .delete {
   width: 80px;
   height: 30px;
@@ -13879,5 +13941,59 @@ body {
 
 .width100 {
   width: 100%;
+}
+
+.status-text,
+.priority-text {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 100%;
+  position: relative;
+  cursor: pointer;
+}
+
+.status-text .select,
+.priority-text .select {
+  -webkit-transform: scale(0);
+          transform: scale(0);
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #17a2b8;
+  position: absolute;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  right: -35px;
+  top: -35px;
+  z-index: 1000;
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: -webkit-transform 0.3s;
+  transition: transform 0.3s;
+  transition: transform 0.3s, -webkit-transform 0.3s;
+}
+
+.status-text .select > span,
+.priority-text .select > span {
+  cursor: pointer;
+  color: #353434;
+}
+
+.status-text .select > span:hover,
+.priority-text .select > span:hover {
+  color: #fafbfb;
+}
+
+.status-text:hover .select,
+.priority-text:hover .select {
+  -webkit-transform: scale(1);
+          transform: scale(1);
 }
 /*# sourceMappingURL=main.css.map */

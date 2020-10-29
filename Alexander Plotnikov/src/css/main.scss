@@ -1,5 +1,5 @@
-@import "../../node_modules/bootstrap/scss/bootstrap.scss";
-@import "../../node_modules/font-awesome/scss/font-awesome.scss";
+@import '../../node_modules/bootstrap/scss/bootstrap.scss';
+@import '../../node_modules/font-awesome/scss/font-awesome.scss';
 
 body {
   min-height: calc(100vh + 1px);
@@ -10,6 +10,38 @@ body {
   transition: height 0.5s, visibility 0.3s, padding 0.3s, margin 0.3s;
   overflow: hidden;
 }
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.df {
+  display: flex;
+}
+.sb {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.none {
+  display: none;
+}
+.center-height {
+  display: flex;
+  align-items: center;
+}
+.center-width {
+  display: flex;
+  justify-content: center;
+}
+
+.ver-cont {
+  display: flex;
+  flex-direction: column;
+}
+
 .delete {
   width: 80px;
   height: 30px;
@@ -22,4 +54,36 @@ body {
 }
 .width100 {
   width: 100%;
+}
+
+.status-text,
+.priority-text {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+  cursor: pointer;
+  & .select {
+    transform: scale(0);
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #17a2b8;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    right: -35px;
+    top: -35px;
+    z-index: 1000;
+    transition: transform 0.3s;
+    & > span {
+      cursor: pointer;
+      color: rgb(53, 52, 52);
+      &:hover {
+        color: rgb(250, 251, 251);
+      }
+    }
+  }
+  &:hover .select {
+    transform: scale(1);
+  }
 }
