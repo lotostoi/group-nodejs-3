@@ -8,10 +8,14 @@ const alltasks = document.querySelector('#alltasks');
 const priority = document.querySelector('.custom-select.priority');
 const body = document.querySelector('body');
 
-addTask.addEventListener('click', (e) => {
-  addTask.classList.toggle('btn-success');
+Tools.color('.status-id');
+Tools.color('.priority-id');
 
-  if (!e.target.classList.contains('btn-success')) {
+addTask.addEventListener('click', (e) => {
+  addTask.classList.toggle('btn-primary');
+  addTask.classList.toggle('btn-dark');
+
+  if (!e.target.classList.contains('btn-primary')) {
     form.style.height = '0';
     form.style.visibility = 'hidden';
     addTask.innerHTML = '+ Add task';
@@ -35,7 +39,9 @@ form.addEventListener('submit', async (e) => {
     priority: priority.options[priority.value - 1].innerHTML.trim(),
     date: mydate.value,
   });
-  Tools.render(res);
+  await Promise.resolve(Tools.render(res));
+  Tools.color('.status-id');
+  Tools.color('.priority-id');
 });
 
 body.addEventListener('click', async (e) => {
@@ -43,7 +49,9 @@ body.addEventListener('click', async (e) => {
     let res = await Tools.server('http://localhost:8001/delById', {
       _id: e.target.dataset.id,
     });
-    Tools.render(res);
+    await Promise.resolve(Tools.render(res));
+    Tools.color('.status-id');
+    Tools.color('.priority-id');
   }
 
   if (e.target.tagName == 'BUTTON' && e.target.dataset.taskedit) {
@@ -53,6 +61,8 @@ body.addEventListener('click', async (e) => {
     document
       .querySelector(`div[data-tasksave = "${e.target.dataset.taskedit}"]`)
       .classList.remove('none');
+    Tools.color('.status-id');
+    Tools.color('.priority-id');
   }
 
   if (e.target.tagName == 'BUTTON' && e.target.dataset.tasksave) {
@@ -62,7 +72,9 @@ body.addEventListener('click', async (e) => {
         `textarea[data-task = "${e.target.dataset.tasksave}"]`
       ).value,
     });
-    Tools.render(res);
+    await Promise.resolve(Tools.render(res));
+    Tools.color('.status-id');
+    Tools.color('.priority-id');
   }
   if (e.target.tagName == 'SPAN' && e.target.dataset.status) {
     let res = await Tools.server('http://localhost:8001/statusedit', {
@@ -73,6 +85,8 @@ body.addEventListener('click', async (e) => {
       document.querySelector(
         `span[data-statustext = "${e.target.dataset.status}"]`
       ).innerHTML = e.target.innerHTML;
+      Tools.color('.status-id');
+      Tools.color('.priority-id');
     }
   }
   if (e.target.tagName == 'SPAN' && e.target.dataset.priority) {
@@ -84,6 +98,8 @@ body.addEventListener('click', async (e) => {
       document.querySelector(
         `span[data-prioritytext = "${e.target.dataset.priority}"]`
       ).innerHTML = e.target.innerHTML;
+      Tools.color('.status-id');
+      Tools.color('.priority-id');
     }
   }
 });

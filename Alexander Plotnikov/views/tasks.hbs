@@ -50,7 +50,7 @@
         <input type="date" class="form-control" id="exampleInputDate" placeholder="status" value="{{currentDate}}" />
       </div>
     </div>
-    <button type="submit" class="btn btn-success">
+    <button type="submit" class="btn btn-primary">
       Create task
     </button>
   </form>
@@ -70,7 +70,7 @@
           Status
         </th>
         <th scope="col" class="col-2 center">
-          Data
+          Date
         </th>
         <th scope="col" class="col-2 center">
           Delete
@@ -85,15 +85,15 @@
           </td>
           <td class="col-3 ver-cont">
             <div class="sb width100 p-1" data-taskedit="{{this._id}}">
-              <p class="mb-0">{{this.task}}</p> <button class="btn btn-outline-success ml-1" data-taskedit="{{this._id}}">
+              <p class="mb-0">{{this.task}}</p> <button class="btn btn-outline-primary ml-1" data-taskedit="{{this._id}}">
                 Edit </button>
             </div>
             <div class="sb width100 p-1 none" data-tasksave="{{this._id}}">
               <textarea type="text" class="form-control" data-task="{{this._id}}"> {{this.task}}</textarea>
-              <button class="btn btn-outline-success ml-1" data-tasksave="{{this._id}}">Save</button>
+              <button class="btn btn-outline-primary ml-1" data-tasksave="{{this._id}}">Save</button>
             </div>
           </td>
-          <td scope="col" class="col-2 center">
+          <td scope="col" class="col-2 center priority-id rounded">
             <div class="priority-text">
               <span data-prioritytext="{{this._id}}">{{this.priority}}</span>
               <div class="select">
@@ -103,7 +103,7 @@
               </div>
             </div>
           </td>
-          <td scope="col" class="col-2 center">
+          <td scope="col" class="col-2 center status-id rounded">
             <div class="status-text">
               <span data-statustext="{{this._id}}">{{this.status}}</span>
               <div class="select">

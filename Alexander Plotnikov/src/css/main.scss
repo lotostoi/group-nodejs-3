@@ -10,6 +10,10 @@ body {
   transition: height 0.5s, visibility 0.3s, padding 0.3s, margin 0.3s;
   overflow: hidden;
 }
+
+.cont {
+  min-height: calc(100vh - 141px);
+}
 .center {
   display: flex;
   align-items: center;
@@ -67,7 +71,7 @@ body {
     transform: scale(0);
     padding: 10px;
     border-radius: 5px;
-    background-color: #17a2b8;
+    background-color: #eb2ad1;
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -85,5 +89,30 @@ body {
   }
   &:hover .select {
     transform: scale(1);
+  }
+}
+
+.waiting {
+  background-color: rgba(83, 112, 243, 0.507);
+}
+.unknown {
+  background-color: rgba(215, 142, 230, 0.513);
+}
+.done {
+  background-color: rgba(255, 123, 0, 0.534);
+}
+.blue {
+  background: #0069d9!important;
+}
+
+footer {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #343a40;
+  height: 50px;
+  color: white;
+  & > p {
+    margin: 0;
   }
 }
