@@ -15,8 +15,10 @@ router.get('/logout', async (req, res) => {
 router.post('/authorization', passport.authenticate)
 router.post('/registration', async (req, res) => {
   if (req.body.password === req.body.password2) {
-    const { password2, ...user } = req.body.password
-    await new User(user)
+    const { password2, ...user } = req.body
+
+    const newUser = new User(user)
+    await newUser.save()
     res.redirect('/auth')
   } else {
     res.render('registration', { passwords: true })
