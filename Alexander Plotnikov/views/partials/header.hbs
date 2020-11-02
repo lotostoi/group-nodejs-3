@@ -4,5 +4,9 @@
     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
     <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
   </form>
-  <a type="button" href="/auth" class="btn btn-outline-light">Login</a>
+  {{#if user}}
+    <a type="button" href="/logout" class="btn btn-outline-light">{{user}}</a>
+    {{else}}
+     <a type="button" href="/auth" class="btn btn-outline-light">sign in</a>
+  {{/if}}
 </nav>

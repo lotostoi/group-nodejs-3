@@ -10,7 +10,15 @@ router.get('/registration', async (req, res) => {
   res.render('registration', { title: 'Todo list' })
 })
 router.get('/logout', async (req, res) => {
-  res.render('logout', { title: 'Todo list' })
+  res.render('logout', {
+    title: 'Todo list',
+    login: req.user.login,
+    email: req.user.email,
+  })
+})
+router.post('/logout', async (req, res) => {
+  req.logout()
+  res.redirect('/auth')
 })
 router.post('/authorization', passport.authenticate)
 router.post('/registration', async (req, res) => {
