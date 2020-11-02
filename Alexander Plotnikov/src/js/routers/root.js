@@ -5,7 +5,6 @@ const router = Router()
 
 router.get('/', async (req, res) => {
   if (req.user) {
-    console.log(req.user._id)
     let tasks = await Task.find({ user: req.user._id }).lean()
     let currentDate = moment().format('YYYY-MM-DD')
     res.render('tasks', {
@@ -17,8 +16,7 @@ router.get('/', async (req, res) => {
       title: 'Todo list',
     })
   } else {
-    res.render('tasks', {
-      tasks: [],
+    res.render('auth', {
       title: 'Todo list',
     })
   }

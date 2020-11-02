@@ -11,21 +11,19 @@
         <div class="form-group">
             <label for="exampleInputEmail1">Email address</label>
             <input type="email" data-field="email" class="form-control" name="email" placeholder="Enter email">
-            <p  data-field="email" class="form-text text-danger invis fontSize">Required format : mymail@mail.ru
-                    or my.mail@mail.ru or my-mail@mail.ru.</p>
-            <p data-login="email" class="form-text text-danger invis fontSize">This email is already
-                busy!</p>
+            <p  data-field="email" class="form-text text-danger invis fontSize">Required format : nick@mail.com.</p>
+            <p data-login="email" class="form-text text-danger invis fontSize">This email is already busy!</p>
         </div>
         <div class="form-group">
             <label for="exampleInputPassword1">Password</label>
-            <input type="password" class="form-control" name="password" placeholder="Password">
-            <p  data-field="password" class="form-text text-danger invis fontSize">Minimum length name is 3</p>
+            <input type="password" id ="p1" class="form-control" name="password" placeholder="Password">
+            <p  data-field="password"  class="form-text text-danger invis fontSize">Minimum length name is 3</p>
             <p data-login="email"  class="form-text text-danger invis fontSize">Passwords aren't the
                 same...</p>
         </div>
         <div class="form-group">
             <label for="exampleInputPassword1">Password</label>
-            <input type="password" class="form-control" name="password2" placeholder="Password">
+            <input type="password" id ="p2" class="form-control" name="password2" placeholder="Password">
             <p data-field="password2" class="form-text text-danger invis fontSize">Minimum length name is 3</p>
             <p data-login="email"  class="form-text text-danger invis fontSize">Passwords aren't the same...</p>
             
@@ -42,8 +40,8 @@
             this.form = d.querySelector(idForm)
             this.submit = this.form.querySelector(idSubmit)
             this.regExps = {
-                login: ['[a-zA-Z]{3,30}', 'i'],
-                email: ['^\\S+@mail.ru$', 'i'],
+                login: ['^[а-яА-ЯёЁA-z]{3,}$', 'i'],
+                email: ['^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$', 'i'],
                 text: ['\\w{3,}', 'i'],
                 password: ['\\w{3,}', 'i'],
                 password2: ['\\w{3,}', 'i'],
