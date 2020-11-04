@@ -16,7 +16,7 @@ passport.use(
       return done(null, false)
     }
 
-    if (!user.validatePassword(password)) {
+    if (!userModel.validatePassword(password)) {
       return done(null, false)
     }
 
