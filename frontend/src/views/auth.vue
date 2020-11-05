@@ -23,7 +23,7 @@
         placeholder="Введите пароль"
         v-model="password"
       />
-      <div class="save">
+ <!--      <div class="save">
         <input
           type="checkbox"
           name="save"
@@ -32,7 +32,7 @@
           v-model="save"
         />
         <label for="inputCheckBox">Запомнить</label>
-      </div>
+      </div> -->
       <router-link
         :to="{ name: 'registration' }"
         class="to-registrate"
@@ -40,9 +40,9 @@
         active-class="active"
         >Еще не зарегистрированны? Вам сюда...</router-link
       >
-      <router-link :to="{}" class="forget-password" exact active-class="active"
+    <!--   <router-link :to="{}" class="forget-password" exact active-class="active"
         >Забыли пароль?</router-link
-      >
+      > -->
       <button
         type="submit"
         :class="!validForm ? 'disabled' : ''"
@@ -197,7 +197,7 @@ input.field {
 }
 .to-registrate,
 .forget-password {
-  margin: 10px 0;
+  margin: 20px 0 10px;
   text-align: left;
   font-size: 0.8rem;
   color: $darkBaseFont;

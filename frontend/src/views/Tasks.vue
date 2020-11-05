@@ -140,7 +140,17 @@
           </td>
           <td scope="col" class="col-2 center priority-id rounded">
             <div class="priority-text">
-              <span :data-prioritytext="task._id">{{ task.priority }}</span>
+              <span
+                :data-prioritytext="task._id"
+                :class="
+                  task.priority === 'High'
+                    ? 'high'
+                    : task.priority === 'Low'
+                    ? 'low'
+                    : 'middle'
+                "
+                >{{ task.priority }}</span
+              >
               <div class="select">
                 <span
                   class="choice-status"
@@ -162,15 +172,32 @@
           </td>
           <td scope="col" class="col-2 center status-id rounded">
             <div class="status-text">
-              <span :data-statustext="task._id">{{ task.status }}</span>
+              <span
+                :class="
+                  task.status === 'Waiting'
+                    ? 'high'
+                    : task.status === 'Unknown'
+                    ? 'low'
+                    : 'middle'
+                "
+                >{{ task.status }}</span
+              >
               <div class="select">
-                <span class="choice-status" @click="editStatus($event, task._id)"
+                <span
+                  class="choice-status"
+                  @click="editStatus($event, task._id)"
                   >Waiting</span
                 >
-                <span class="choice-status" @click="editStatus($event, task._id)"
+                <span
+                  class="choice-status"
+                  @click="editStatus($event, task._id)"
                   >Unknown</span
                 >
-                <span class="choice-status" @click="editStatus($event, task._id)">Done</span>
+                <span
+                  class="choice-status"
+                  @click="editStatus($event, task._id)"
+                  >Done</span
+                >
               </div>
             </div>
           </td>
@@ -325,5 +352,30 @@ h1 {
 }
 .enter {
   animation: enter 0.9s linear;
+}
+
+.high {
+  padding: 5px;
+  border-radius: 2px;
+  display: flex;
+  justify-content: center;
+  width: 90%;
+  background-color: rgba(255, 0, 170, 0.411);
+}
+.low {
+  padding: 5px;
+  border-radius: 2px;
+  display: flex;
+  justify-content: center;
+  width: 90%;
+  background-color: rgba(53, 51, 52, 0.411);
+}
+.middle {
+  padding: 5px;
+  border-radius: 2px;
+  display: flex;
+  justify-content: center;
+  width: 90%;
+  background-color: rgba(255, 75, 4, 0.411);
 }
 </style>
