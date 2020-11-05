@@ -1,7 +1,15 @@
 <template>
   <div class="container">
     <my-header />
-    <router-view />
+     <router-view v-slot="{ Component }">
+      <transition
+        enter-active-class="page-enter"
+        leave-active-class="page-leave"
+        mode="out-in"
+      >
+        <component :is="Component" />
+      </transition>
+    </router-view>
     <my-footer />
   </div>
 </template>

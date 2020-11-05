@@ -8,25 +8,25 @@ const jwt = require('jsonwebtoken')
 const cors = require('cors')
 const mongoose = require('mongoose')
 mongoose.set('useFindAndModify', false)
+const multer = require('multer')
+const upload = multer()
 
 const mustBeAuthorizationRestApi = (req, res, next) => {
-  if (req.path === '/') {
-    if (req.headers.authorization) {
-      const [, token] = req.readers.authorization.split(' ')
-      jwt.verify(token, TOKEN_SECRET_KEY, (err, data) => {
-        if (err) return res.status(403).send()
-        req.user = data
-        next()
-      })
-    } else {
-      return res.status(403).send()
-    }
-  } else next()
+  if (req.headers.authorization) {
+    const [, token] = req.headers.authorization.split(' ')
+    jwt.verify(token, TOKEN_SECRET_KEY, (err, data) => {
+      if (err) return next()
+      delete data.password1
+      req.user = data
+      next()
+    })
+  } else {
+    next()
+  }
 }
 
 const passport = require('./src/js/auth')
 const cookieParser = require('cookie-parser')
-const rootRout = require('./src/js/routers/root')
 const authRout = require('./src/js/routers/auth')
 const tasksRout = require('./src/js/routers/work-with-tasks')
 
@@ -38,9 +38,10 @@ app.use(passport.initialize)
 app.use(passport.session)
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
+app.use(upload.array())
 
-app.use('/', mustBeAuthorizationRestApi)
-app.use(rootRout)
+app.use('*', mustBeAuthorizationRestApi)
+
 app.use(authRout)
 app.use(tasksRout)
 

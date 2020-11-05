@@ -1,3 +1,6 @@
-import { http } from '@/api/http'
+import http from '@/api/http'
 
-export const check = http.get()
+export const check = async () => {
+  let { data } = await http.get('getUser')
+  return data
+}

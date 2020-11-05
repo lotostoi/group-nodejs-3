@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="navbar navbar-light bg-light justify-content-between blue rounded"
+    class="navbar navbar-light  justify-content-between dark rounded"
   >
     <a class="navbar-brand title" href="/">title </a>
     <form class="form-inline ml-auto mr-1">
@@ -18,7 +18,7 @@
     <router-link
       v-if="user"
       type="button"
-      :to="{}"
+      :to="{ name: 'persanArea' }"
       class="btn btn-outline-light"
     >
       {{ user.login }}
@@ -36,11 +36,11 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { http } from '@/api/http'
+import http from '@/api/http'
 export default {
   components: {},
   async craeted() {
-   // await 
+    // await
   },
   computed: {
     ...mapGetters({
@@ -50,4 +50,8 @@ export default {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.dark {
+  background-color: $baseBGC;
+}
+</style>

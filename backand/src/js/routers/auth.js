@@ -37,6 +37,17 @@ router.get('/checkEmail/:email', async (req, res) => {
   }
 })
 
+
+
+router.get('/getUser', async (req, res) => {
+  if (req.user) {
+    res.status(200).json(req.user)
+  } else {
+    res.status(403).send()
+  }
+ 
+})
+
 router.get('/registration', async (req, res) => {
   res.render('registration', { title: 'Todo list' })
 })

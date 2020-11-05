@@ -1,15 +1,27 @@
 <template>
-  <div class="cont">
-    <button type="button" class="btn btn-dark my-2 width100" id="addtask">
-      + Add task
+  <div class="cont" v-if="user">
+    <button
+      type="button"
+      class="btn btn-dark my-2 width100"
+      :class="show ? 'blue' : ''"
+      id="addtask"
+      @click="show = !show"
+    >
+      {{ !show ? '+ Add task' : '- Close' }}
     </button>
-    <form id="creatTask" class="border animHeight" style="height: 0;">
+    <form
+      id="creatTask"
+      class="animHeight"
+      :class="show ? 'active' : ' '"
+      @submit.prevent="newTask($event)"
+    >
       <div class="form-group">
         <label for="exampleInputEmail1">
           Text of task
         </label>
         <textarea
           type="text"
+          name="task"
           class="form-control"
           id="exampleInputEmail1"
           aria-describedby="emailHelp"
@@ -21,7 +33,7 @@
           <label for="exampleInputPassword1">
             Status
           </label>
-          <select class="custom-select status">
+          <select class="custom-select status" id="selectStatus">
             <option value="1" selected>
               Waiting
             </option>
@@ -37,7 +49,7 @@
           <label for="exampleInputPriority">
             Priority
           </label>
-          <select class="custom-select priority">
+          <select class="custom-select priority" id="selectPriority">
             <option value="1" selected>
               High
             </option>
@@ -55,10 +67,11 @@
           </label>
           <input
             type="date"
+            name="date"
             class="form-control"
             id="exampleInputDate"
             placeholder="status"
-            value="{{currentDate}}"
+            value=""
           />
         </div>
       </div>
@@ -66,6 +79,7 @@
         Create task
       </button>
     </form>
+
     <table class="table">
       <thead class="thead-dark">
         <tr class="row mx-0">
@@ -90,30 +104,35 @@
         </tr>
       </thead>
       <tbody id="alltasks">
-        <tr class="row mx-0">
+        <tr class="row mx-0" v-for="(task, i) in tasks" :key="task._id">
           <td scope="row" class="col-1 center">
-            <span>{{ index }}</span>
+            <span>{{ i + 1 }}</span>
           </td>
           <td class="col-3 ver-cont">
-            <div class="sb width100 p-1" data-taskedit="{{this._id}}">
-              <p class="mb-0">{{ task }}</p>
+            <div
+              v-if="!task.showEdit"
+              class="sb width100 p-1"
+              :data-taskedit="task._id"
+            >
+              <p class="mb-0">{{ task.task }}</p>
               <button
                 class="btn btn-outline-primary ml-1"
-                data-taskedit="{{this._id}}"
+                @click="task.showEdit = true"
               >
                 Edit
               </button>
             </div>
-            <div class="sb width100 p-1 none" data-tasksave="{{this._id}}">
+            <div v-else class="sb width100 p-1">
               <textarea
-                type="text"
                 class="form-control"
-                data-task="{{this._id}}"
-                >{{ task }}
+                :data-task="task._id"
+                v-model="task.task"
+              >
+               {{ task.task }}
               </textarea>
               <button
                 class="btn btn-outline-primary ml-1"
-                data-tasksave="{{this._id}}"
+                @click="taskEdit(task._id)"
               >
                 Save
               </button>
@@ -121,41 +140,41 @@
           </td>
           <td scope="col" class="col-2 center priority-id rounded">
             <div class="priority-text">
-              <span data-prioritytext="{{this._id}}">{{ priority }}</span>
+              <span :data-prioritytext="task._id">{{ task.priority }}</span>
               <div class="select">
-                <span class="choice-status" data-priority="{{this._id}}"
+                <span class="choice-status" :data-priority="task._id"
                   >High</span
                 >
-                <span class="choice-status" data-priority="{{this._id}}"
+                <span class="choice-status" :data-priority="task._id"
                   >Middle</span
                 >
-                <span class="choice-status" data-priority="{{this._id}}"
-                  >Low</span
-                >
+                <span class="choice-status" :data-priority="task._id">Low</span>
               </div>
             </div>
           </td>
           <td scope="col" class="col-2 center status-id rounded">
             <div class="status-text">
-              <span data-statustext="{{this._id}}">{{ status }}</span>
+              <span :data-statustext="task._id">{{ task.status }}</span>
               <div class="select">
-                <span class="choice-status" data-status="{{this._id}}"
+                <span class="choice-status" :data-status="task._id"
                   >Waiting</span
                 >
-                <span class="choice-status" data-status="{{this._id}}"
+                <span class="choice-status" :data-status="task._id"
                   >Unknown</span
                 >
-                <span class="choice-status" data-status="{{this._id}}"
-                  >Done</span
-                >
+                <span class="choice-status" :data-status="task._id">Done</span>
               </div>
             </div>
           </td>
           <td scope="col" class="col-2 center">
-            <span>{{ date }}</span>
+            <span>{{ task.date }}</span>
           </td>
           <td scope="col" class="col-2 center">
-            <button type="button" class="btn btn-dark" data-id="{{this._id}}">
+            <button
+              type="button"
+              class="btn btn-dark"
+              @click="delTask(task._id)"
+            >
               Del task
             </button>
           </td>
@@ -163,16 +182,122 @@
       </tbody>
     </table>
   </div>
+
+  <div v-else class="cont">
+    <h1>Для работы с задачами вам необходимо авторизироваться!</h1>
+    <router-link
+      :to="{ name: 'auth' }"
+      class="to-registrate"
+      exact
+      active-class="active"
+      >Войти</router-link
+    >
+    <router-link
+      :to="{ name: 'registration' }"
+      class="to-registrate"
+      exact
+      active-class="active"
+      >Еще не зарегистрированны? Вам сюда...</router-link
+    >
+  </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
+  data: () => ({
+    show: false,
+  }),
   components: {},
+  methods: {
+    ...mapActions({
+      addTask: 'tasks/addTask',
+      delTask: 'tasks/delTask',
+      editTask: 'tasks/editTask',
+    }),
+    newTask(e) {
+      let data = new FormData(e.target)
+      let elStatus = document.querySelector('#selectStatus')
+      let elPriority = document.querySelector('#selectPriority')
+      let status = elStatus.options[elStatus.value - 1].innerHTML.trim()
+      let priority = elPriority.options[elPriority.value - 1].innerHTML.trim()
+      data.append('priority', priority)
+      data.append('status', status)
+      this.addTask(data)
+    },
+    async taskEdit(_id) {
+      let idx = this.tasks.findIndex((t) => t._id === _id)
+      let cb = () => (this.tasks[idx].showEdit = false)
+      this.editTask({
+        _id,
+        task: this.tasks[idx].task,
+        name: 'task',
+        callback: cb,
+      })
+    },
+  },
   computed: {
     ...mapGetters({
       user: 'user/user',
+      tasks: 'tasks/tasks',
     }),
   },
 }
 </script>
+<style lang="scss" scoped>
+h1 {
+  font-size: 1.5rem;
+  margin: 30px 0;
+}
+.to-registrate {
+  margin: 10px 0;
+  text-align: left;
+  font-size: 1rem;
+  color: $darkBaseFont;
+  &:hover {
+    color: $darkHoverFont;
+  }
+  &:active {
+    color: $darkActiveFont;
+  }
+}
+.list-enter-active,
+.list-leave-active {
+  transition: all 1s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+@keyframes leave {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+@keyframes enter {
+  from {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+.apear {
+  display: none;
+}
+.leave {
+  animation: leave 0.9s linear;
+}
+.enter {
+  animation: enter 0.9s linear;
+}
+</style>

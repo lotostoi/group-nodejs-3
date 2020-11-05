@@ -1,3 +1,5 @@
+import * as User from '@/api/user'
+
 export default {
   namespaced: true,
   state: {
@@ -13,7 +15,15 @@ export default {
     },
   },
   actions: {
-    /* asinc getUser() {}, */
+    async getUser({ commit }) {
+      try {
+        let res = await User.check()
+        commit('setUser', res)
+       
+      } catch (e) {
+        commit('setUser', null)
+      }
+    },
     setUser({ commit }, user) {
       commit('setUser', user)
     },

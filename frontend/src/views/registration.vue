@@ -48,7 +48,7 @@ let delay = async (delay = 0) =>
     setTimeout(() => resolve(), delay)
   })
 
-import { http } from '@/api/http'
+import  http  from '@/api/http'
 
 export default {
   data: () => ({

@@ -17,10 +17,16 @@ const routes = [
     name: 'auth',
     component: () => import('../views/auth.vue'),
   },
+  {
+    path: '/persanArea',
+    name: 'persanArea',
+    component: () => import('../views/persanArea.vue'),
+  },
 ]
 
 const router = createRouter({
   history: createWebHashHistory(),
+  mode: history,
   routes,
 })
 
