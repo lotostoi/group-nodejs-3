@@ -22,7 +22,7 @@ export default {
       state.tasks = tasks
     },
     editTask(state, field) {
-        console.log(field);
+      console.log(field)
 
       let idx = [...state.tasks].findIndex((t) => t._id === field._id)
       state.tasks[idx][field.name] = field.task
@@ -31,8 +31,19 @@ export default {
   actions: {
     async editTask({ commit }, { _id, task, name, callback }) {
       try {
+        let token = localStorage.getItem('token')
         if (name === 'task') {
-          await Tasks.editTask({ _id, task })
+          await Tasks.editTask({ _id, task }, token)
+          commit('editTask', { _id, task, name })
+          callback()
+        }
+        if (name === 'priority') {
+          await Tasks.editPriorety({ _id, priority: task }, token)
+          commit('editTask', { _id, task, name })
+          callback()
+        }
+        if (name === 'status') {
+          await Tasks.editStatus({ _id, status: task }, token)
           commit('editTask', { _id, task, name })
           callback()
         }
@@ -43,7 +54,8 @@ export default {
 
     async delTask({ commit }, _id) {
       try {
-        await Tasks.delById(_id)
+        let token = localStorage.getItem('token')
+        await Tasks.delById(_id, token)
         commit('delTask', _id)
       } catch (e) {
         console.log(e)
@@ -51,7 +63,8 @@ export default {
     },
     async getTasks({ commit }) {
       try {
-        let { tasks } = await Tasks.all()
+        let token = localStorage.getItem('token')
+        let { tasks } = await Tasks.all(token)
         commit(
           'setTasks',
           tasks.map((t) => ({ ...t, edit: false }))
@@ -60,7 +73,8 @@ export default {
     },
     async addTask({ commit, dispatch }, task) {
       try {
-        await Tasks.add(task)
+        let token = localStorage.getItem('token')
+        await Tasks.add(task, token)
         commit('addTask', task)
         dispatch('getTasks')
       } catch (e) {}

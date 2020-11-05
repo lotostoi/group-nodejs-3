@@ -36,7 +36,7 @@ export default {
       localStorage.setItem('token', null)
       this.getUser()
       this.$router.push('/auth')
-    }
+    },
   },
   computed: {
     ...mapGetters({

@@ -17,10 +17,11 @@ export default {
   actions: {
     async getUser({ commit }) {
       try {
-        let res = await User.check()
+        let token = localStorage.getItem('token')
+        let res = await User.check(token)
         commit('setUser', res)
-       
       } catch (e) {
+        console.log(2)
         commit('setUser', null)
       }
     },

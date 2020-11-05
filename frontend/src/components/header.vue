@@ -1,8 +1,8 @@
 <template>
-  <nav
-    class="navbar navbar-light  justify-content-between dark rounded"
-  >
-    <a class="navbar-brand title" href="/">title </a>
+  <nav class="navbar navbar-light  justify-content-between dark rounded">
+    <router-link class="navbar-brand title" :to="{ name: 'Home' }"
+      >title
+    </router-link>
     <form class="form-inline ml-auto mr-1">
       <input
         class="form-control mr-sm-2"

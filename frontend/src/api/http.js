@@ -5,12 +5,12 @@ const http = axios.create({
   timeout: 10000,
 })
 
-const AUTH_TOKEN ='Bearer ' + localStorage.getItem('token')
+/* const AUTH_TOKEN ='Bearer ' + localStorage.getItem('token')
 
 console.log(AUTH_TOKEN);
 
 if (AUTH_TOKEN) {
   http.defaults.headers.common['Authorization'] = AUTH_TOKEN
 }
-
+ */
 export default http

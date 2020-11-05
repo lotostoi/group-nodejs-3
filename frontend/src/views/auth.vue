@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import  http  from '@/api/http'
+import http from '@/api/http'
 import { mapGetters, mapActions } from 'vuex'
 export default {
   data: () => ({
@@ -82,7 +82,7 @@ export default {
           let {
             data: { token, login, email },
           } = res
-          localStorage.setItem('token', token)        
+          localStorage.setItem('token', token)
           this.error = false
           let user = { token, login, email }
           this.setUser(user)

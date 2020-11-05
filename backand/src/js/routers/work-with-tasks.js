@@ -3,12 +3,11 @@ const Task = require('../model/task')
 const moment = require('moment')
 const router = Router()
 
-
 // получить все задачи
-router.get('/alltasks', async (req, res) => {
+router.get('/alltasks/:token', async (req, res) => {
   if (req.user) {
     let tasks = await Task.find({ user: req.user._id }).lean()
-   // let currentDate = moment().format('YYYY-MM-DD')
+    // let currentDate = moment().format('YYYY-MM-DD')
     res.status(200).json({
       tasks: tasks
         .sort(sortByDate)
@@ -19,8 +18,7 @@ router.get('/alltasks', async (req, res) => {
   }
 })
 // создать задачу
-router.post('/newtask', async (req, res) => {
-  console.log(req.body)
+router.post('/newtask/:token', async (req, res) => {
   let obj = new Task({
     task: req.body.task || 'No task',
     priority: req.body.priority,
@@ -39,7 +37,7 @@ router.post('/newtask', async (req, res) => {
   }
 })
 // удалить по id
-router.post('/delById', async (req, res) => {
+router.post('/delById/:token', async (req, res) => {
   try {
     await Task.deleteOne({ _id: req.body._id })
     let tasks = await Task.find()
@@ -50,9 +48,8 @@ router.post('/delById', async (req, res) => {
   }
 })
 
-router.post('/taskedit', async (req, res) => {
+router.post('/taskedit/:token', async (req, res) => {
   try {
-    console.log(req.body);
     let task = await Task.findById(req.body._id)
     if (task) {
       await Task.findByIdAndUpdate(
@@ -70,7 +67,7 @@ router.post('/taskedit', async (req, res) => {
   }
 })
 
-router.post('/statusedit', async (req, res) => {
+router.post('/statusedit/:token', async (req, res) => {
   try {
     let task = await Task.findById(req.body._id)
     if (task) {
@@ -88,7 +85,7 @@ router.post('/statusedit', async (req, res) => {
   }
 })
 
-router.post('/priorityedit', async (req, res) => {
+router.post('/priorityedit/:token', async (req, res) => {
   try {
     let task = await Task.findById(req.body._id)
     if (task) {

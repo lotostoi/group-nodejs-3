@@ -1,6 +1,6 @@
 import http from '@/api/http'
 
-export const check = async () => {
-  let { data } = await http.get('getUser')
+export const check = async (token) => {
+  let { data } = await http.get(token ? `getUser/${token}` : `getUser`)
   return data
 }

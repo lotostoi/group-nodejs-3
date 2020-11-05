@@ -142,13 +142,21 @@
             <div class="priority-text">
               <span :data-prioritytext="task._id">{{ task.priority }}</span>
               <div class="select">
-                <span class="choice-status" :data-priority="task._id"
+                <span
+                  class="choice-status"
+                  @click="editPriorety($event, task._id)"
                   >High</span
                 >
-                <span class="choice-status" :data-priority="task._id"
+                <span
+                  class="choice-status"
+                  @click="editPriorety($event, task._id)"
                   >Middle</span
                 >
-                <span class="choice-status" :data-priority="task._id">Low</span>
+                <span
+                  class="choice-status"
+                  @click="editPriorety($event, task._id)"
+                  >Low</span
+                >
               </div>
             </div>
           </td>
@@ -156,13 +164,13 @@
             <div class="status-text">
               <span :data-statustext="task._id">{{ task.status }}</span>
               <div class="select">
-                <span class="choice-status" :data-status="task._id"
+                <span class="choice-status" @click="editStatus($event, task._id)"
                   >Waiting</span
                 >
-                <span class="choice-status" :data-status="task._id"
+                <span class="choice-status" @click="editStatus($event, task._id)"
                   >Unknown</span
                 >
-                <span class="choice-status" :data-status="task._id">Done</span>
+                <span class="choice-status" @click="editStatus($event, task._id)">Done</span>
               </div>
             </div>
           </td>
@@ -233,6 +241,24 @@ export default {
         task: this.tasks[idx].task,
         name: 'task',
         callback: cb,
+      })
+    },
+    async editPriorety(e, _id) {
+      let idx = this.tasks.findIndex((t) => t._id === _id)
+      this.editTask({
+        _id,
+        task: e.target.innerHTML,
+        name: 'priority',
+        callback: () => null,
+      })
+    },
+    async editStatus(e, _id) {
+      let idx = this.tasks.findIndex((t) => t._id === _id)
+      this.editTask({
+        _id,
+        task: e.target.innerHTML,
+        name: 'status',
+        callback: () => null,
       })
     },
   },
