@@ -1,9 +1,9 @@
 <template>
   <nav class="navbar navbar-light  justify-content-between dark rounded">
     <router-link class="navbar-brand title" :to="{ name: 'Home' }"
-      >title
+      >Task's manager
     </router-link>
-    <form class="form-inline ml-auto mr-1">
+<!--     <form class="form-inline ml-auto mr-1">
       <input
         class="form-control mr-sm-2"
         type="search"
@@ -13,7 +13,7 @@
       <button class="btn btn-outline-light my-2 my-sm-0" type="submit">
         Search
       </button>
-    </form>
+    </form> -->
 
     <router-link
       v-if="user"

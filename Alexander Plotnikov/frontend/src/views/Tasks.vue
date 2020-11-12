@@ -9,6 +9,7 @@
     >
       {{ !show ? '+ Add task' : '- Close' }}
     </button>
+
     <form
       id="creatTask"
       class="animHeight"
@@ -75,10 +76,29 @@
           />
         </div>
       </div>
-      <button type="submit" class="btn btn-primary">
+      <button type="submit" class="btn btn-info">
         Create task
       </button>
     </form>
+
+    <div class="filters">
+      <button
+        type="button"
+        class="btn btn-info"
+        :class="activeFilter ? 'active' : ''"
+        @click="activeFilter = !activeFilter"
+      >
+        Current tasks
+      </button>
+      <button
+        type="button"
+        class="btn btn-info"
+        :class="!activeFilter ? 'active' : ''"
+        @click="activeFilter = !activeFilter"
+      >
+        All tasks
+      </button>
+    </div>
 
     <table class="table">
       <thead class="thead-dark">
@@ -95,16 +115,22 @@
           <th scope="col" class="col-2 center">
             Status
           </th>
-          <th scope="col" class="col-2 center">
+          <th scope="col" class="col-3 center">
             Date
           </th>
-          <th scope="col" class="col-2 center">
+          <th scope="col" class="col-1 center">
             Delete
           </th>
         </tr>
       </thead>
+
       <tbody id="alltasks">
-        <tr class="row mx-0" v-for="(task, i) in tasks" :key="task._id">
+        <tr
+          class="row mx-0 "
+          :class="task.odd ? 'gray' : 'orange'"
+          v-for="(task, i) in tasksForShow"
+          :key="task._id"
+        >
           <td scope="row" class="col-1 center">
             <span>{{ i + 1 }}</span>
           </td>
@@ -201,16 +227,16 @@
               </div>
             </div>
           </td>
-          <td scope="col" class="col-2 center">
+          <td scope="col" class="col-3 center">
             <span>{{ task.date }}</span>
           </td>
-          <td scope="col" class="col-2 center">
+          <td scope="col" class="col-1 center">
             <button
               type="button"
               class="btn btn-dark"
               @click="delTask(task._id)"
             >
-              Del task
+              <i class="fa fa-trash" aria-hidden="true"></i>
             </button>
           </td>
         </tr>
@@ -238,11 +264,15 @@
 </template>
 
 <script>
+import moment from 'moment'
 import { mapGetters, mapActions } from 'vuex'
 export default {
   data: () => ({
     show: false,
+    activeFilter: true,
+ 
   }),
+
   components: {},
   methods: {
     ...mapActions({
@@ -258,6 +288,7 @@ export default {
       let priority = elPriority.options[elPriority.value - 1].innerHTML.trim()
       data.append('priority', priority)
       data.append('status', status)
+      this.activeFilter = false
       this.addTask(data)
     },
     async taskEdit(_id) {
@@ -288,12 +319,23 @@ export default {
         callback: () => null,
       })
     },
+    filt(mode) {
+      this.activeFilter = !this.activeFilter
+    },
   },
   computed: {
     ...mapGetters({
       user: 'user/user',
       tasks: 'tasks/tasks',
     }),
+    tasksForShow() {
+      if (this.activeFilter) {
+        let date = moment().format('YYYY-MM-DD')
+        return this.tasks ? this.tasks.filter((t) => t.date.includes(date)) : []
+      } else {
+        return this.tasks
+      }
+    },
   },
 }
 </script>
@@ -377,5 +419,23 @@ h1 {
   justify-content: center;
   width: 90%;
   background-color: rgba(255, 75, 4, 0.411);
+}
+.filters {
+  display: flex;
+  border: 1px solid rgba(128, 128, 128, 0.322);
+  background-color: rgba(128, 128, 128, 0.322);
+  border-radius: 5px;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  & > button {
+    margin: 0 10px;
+  }
+  & > button.active {
+    color: #fff;
+    background-color: #138496;
+    border-color: #117a8b;
+    box-shadow: 0 0 0 0.2rem rgba(58, 176, 195, 0.5);
+  }
 }
 </style>

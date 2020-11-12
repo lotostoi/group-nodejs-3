@@ -75,7 +75,7 @@ export default {
       try {
         let token = localStorage.getItem('token')
         await Tasks.add(task, token)
-        commit('addTask', task)
+        //commit('addTask', task)
         dispatch('getTasks')
       } catch (e) {}
     },

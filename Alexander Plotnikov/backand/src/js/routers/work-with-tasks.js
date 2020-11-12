@@ -7,7 +7,6 @@ const router = Router()
 router.get('/alltasks/:token', async (req, res) => {
   if (req.user) {
     let tasks = await Task.find({ user: req.user._id }).lean()
-    // let currentDate = moment().format('YYYY-MM-DD')
     res.status(200).json({
       tasks: tasks
         .sort(sortByDate)
@@ -19,11 +18,14 @@ router.get('/alltasks/:token', async (req, res) => {
 })
 // создать задачу
 router.post('/newtask/:token', async (req, res) => {
+  console.log(req.body)
+  let date = req.body.date || `${moment().format('YYYY-MM-DD')}`
+  let time = `${moment().format('h:mm:ss a')}`
   let obj = new Task({
     task: req.body.task || 'No task',
     priority: req.body.priority,
     status: req.body.status,
-    date: req.body.date || `${moment().format('YYYY-MM-DD')}`,
+    date: `${date},${time}`,
     user: req.user._id,
   })
 

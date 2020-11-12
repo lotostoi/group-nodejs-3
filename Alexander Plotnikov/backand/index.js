@@ -10,8 +10,8 @@ const mongoose = require('mongoose')
 mongoose.set('useFindAndModify', false)
 const multer = require('multer')
 const upload = multer()
+const history = require('connect-history-api-fallback')
 
-const history = require('connect-history-api-fallback');
 
 app.use(history())
 
@@ -46,7 +46,7 @@ app.use(authRout)
 app.use(tasksRout)
 
 app.get('/', (req, res) => {
-  res.sendFile(path.resolve(__dirname,'src/dist/index.html'))
+  res.sendFile(path.resolve(__dirname, 'src/dist/index.html'))
 })
 
 app.get('*', async (req, res) => {

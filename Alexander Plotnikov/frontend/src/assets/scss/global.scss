@@ -88,19 +88,20 @@ body {
   cursor: pointer;
   & .select {
     transform: scale(0);
-    padding: 10px;
+    padding: 10px 20px;
     border-radius: 5px;
-    background-color: #eb2ad1;
+    background-color: #3d3a3d;
     position: absolute;
     display: flex;
     flex-direction: column;
-    right: -35px;
+    right: -65px;
     top: -35px;
     z-index: 1000;
-    transition: transform 0.3s;
+    border: 1px solid white;
+    transition: transform 0.2s;
     & > span {
       cursor: pointer;
-      color: rgb(53, 52, 52);
+      color: rgba(255, 255, 255, 0.657);
       &:hover {
         color: rgb(250, 251, 251);
       }
@@ -122,6 +123,14 @@ body {
 }
 .blue {
   background: $baseColor !important;
+  border-color: $baseColor !important;
+}
+
+.gray {
+  background-color: rgb(170, 212, 240);
+}
+.orange {
+  background-color: rgb(241, 226, 184);
 }
 
 footer {
