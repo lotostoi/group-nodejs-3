@@ -18,7 +18,7 @@ router.get('/alltasks/:token', async (req, res) => {
 })
 // создать задачу
 router.post('/newtask/:token', async (req, res) => {
-  console.log(req.body)
+
   let date = req.body.date || `${moment().format('YYYY-MM-DD')}`
   let time = `${moment().format('h:mm:ss a')}`
   let obj = new Task({
