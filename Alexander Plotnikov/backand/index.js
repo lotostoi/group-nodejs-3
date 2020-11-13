@@ -14,15 +14,23 @@ const history = require('connect-history-api-fallback')
 const http = require('http')
 const socketIO = require('socket.io')
 const moment = require('moment')
+app.use(cors())
+const server = http.createServer(app)
 
-const server = http.Server(app)
-const io = socketIO(server)
+const io = require('socket.io')(server, {
+  cors: {
+    origin: '* ',
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['my-custom-header'],
+    credentials: true,
+  },
+})
 
 io.use((socket, next) => {
   const token = socket.handshake.query.token
   jwt.verify(token, TOKEN_SECRET_KEY, (err) => {
     if (err) return next(new Error('Authorization error'))
-    next()
+    return next()
   })
   return next(new Error('Authorization error'))
 })
@@ -31,8 +39,9 @@ io.on('connection', (socket) => {
   console.log('new connection')
 
   socket.on('createTask', async (task) => {
+    console.log('fff')
 
-    let date = task.date || `${moment().format('YYYY-MM-DD')}`
+    /*     let date = task.date || `${moment().format('YYYY-MM-DD')}`
     let time = `${moment().format('h:mm:ss a')}`
 
     let obj = new Task({
@@ -51,7 +60,7 @@ io.on('connection', (socket) => {
     } catch (e) {
       console.error(e)
       res.json({ result: false })
-    }
+    } */
   })
 
   socket.on('disconnect', () => {
@@ -80,8 +89,6 @@ const tasksRout = require('./src/js/routers/work-with-tasks')
 app.use(express.static(path.join(__dirname, 'src')))
 app.use(express.static(path.join(__dirname, 'src/dist')))
 
-app.use(cors())
-
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 app.use(upload.array())
@@ -106,10 +113,10 @@ async function start() {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
-    app.listen(PORT, () => console.log(`http://localhost:${PORT}`))
   } catch (e) {
     console.error(e)
   }
 }
+server.listen(PORT, () => console.log(`http://localhost:${PORT}`))
 
 start()

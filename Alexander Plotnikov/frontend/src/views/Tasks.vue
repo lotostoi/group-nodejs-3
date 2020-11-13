@@ -264,15 +264,22 @@
 </template>
 
 <script>
+
+// or with import syntax
+import io from 'socket.io-client';
+
 import moment from 'moment'
 import { mapGetters, mapActions } from 'vuex'
+
+let token = localStorage.getItem('token')
+
+let socket = io(`http://localhost:8001?token=${token}`)
+
 export default {
   data: () => ({
     show: false,
     activeFilter: true,
- 
   }),
-
   components: {},
   methods: {
     ...mapActions({
@@ -331,7 +338,7 @@ export default {
     tasksForShow() {
       if (this.activeFilter) {
         let date = moment().format('YYYY-MM-DD')
-        return this.tasks ? this.tasks.filter((t) => t.date.includes(date)) : []
+        return this.tasks.filter((t) => t.date.includes(date))
       } else {
         return this.tasks
       }
