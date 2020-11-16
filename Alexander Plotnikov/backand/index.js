@@ -50,6 +50,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('*', async (req, res) => {
+  console.log(req.path);
   res.status(404).send()
 })
 
