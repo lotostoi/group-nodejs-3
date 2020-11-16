@@ -108,7 +108,7 @@ export default {
       validServer: true,
       active: false,
     }))
-    console.log()
+   
   },
   methods: {
     async valid(i) {
@@ -168,7 +168,6 @@ export default {
     async toRegistrate() {
       let user = {}
       this.forma.forEach((f) => {
-        console.log(f.id)
         user[f.id] = f.value
       })
       let {

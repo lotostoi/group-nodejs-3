@@ -11,7 +11,7 @@ export default {
   mutations: {
     setUser(state, user) {
       state.user = user
-      console.log()
+   
     },
   },
   actions: {
@@ -21,7 +21,6 @@ export default {
         let res = await User.check(token)
         commit('setUser', res)
       } catch (e) {
-        console.log(2)
         commit('setUser', null)
       }
     },

@@ -1,4 +1,4 @@
-const PORT = 8001
+const PORT = 3333
 const TOKEN_SECRET_KEY = require('./src/js/secret')
 const db = require('./src/js/config')
 const path = require('path')
@@ -32,7 +32,7 @@ const authRout = require('./src/js/routers/auth')
 const tasksRout = require('./src/js/routers/work-with-tasks')
 
 app.use(express.static(path.join(__dirname, 'src')))
-app.use(express.static(path.join(__dirname, 'src/dist')))
+app.use(express.static(path.join(__dirname, 'src/project')))
 
 app.use(cors())
 

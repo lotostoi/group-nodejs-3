@@ -22,7 +22,6 @@ export default {
       state.tasks = tasks
     },
     editTask(state, field) {
-      console.log(field)
 
       let idx = [...state.tasks].findIndex((t) => t._id === field._id)
       state.tasks[idx][field.name] = field.task
